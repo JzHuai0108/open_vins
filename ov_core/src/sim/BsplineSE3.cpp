@@ -264,7 +264,7 @@ bool BsplineSE3::get_acceleration(double timestamp, Eigen::Matrix3d &R_GtoI, Eig
 
 
 bool BsplineSE3::find_bounding_poses(const double timestamp, const AlignedEigenMat4d &poses,
-                                     double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1) const {
+                                     double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1) {
 
     // Set the default values
     t0 = -1;
@@ -320,7 +320,7 @@ bool BsplineSE3::find_bounding_poses(const double timestamp, const AlignedEigenM
 
 bool BsplineSE3::find_bounding_control_points(const double timestamp, const AlignedEigenMat4d &poses,
                                               double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1,
-                                              double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3) const {
+                                              double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3) {
 
     // Set the default values
     t0 = -1;

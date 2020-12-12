@@ -196,7 +196,7 @@ namespace ov_core {
          * @return False if we are unable to find bounding poses
          */
         static bool find_bounding_poses(const double timestamp, const AlignedEigenMat4d &poses,
-                                        double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1) const;
+                                        double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1);
 
 
         /**
@@ -216,7 +216,7 @@ namespace ov_core {
          */
         static bool find_bounding_control_points(const double timestamp, const AlignedEigenMat4d &poses,
                                                  double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1,
-                                                 double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3) const;
+                                                 double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3);
 
     };
 
