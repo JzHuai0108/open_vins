@@ -98,7 +98,7 @@ void BsplineSE3::feed_trajectory(std::vector<Eigen::VectorXd> traj_points) {
 
 
 
-bool BsplineSE3::get_pose(double timestamp, Eigen::Matrix3d &R_GtoI, Eigen::Vector3d &p_IinG) {
+bool BsplineSE3::get_pose(double timestamp, Eigen::Matrix3d &R_GtoI, Eigen::Vector3d &p_IinG) const {
 
     // Get the bounding poses for the desired timestamp
     double t0, t1, t2, t3;
@@ -260,8 +260,8 @@ bool BsplineSE3::get_acceleration(double timestamp, Eigen::Matrix3d &R_GtoI, Eig
 }
 
 
-bool BsplineSE3::find_bounding_poses(double timestamp, std::map<double,Eigen::MatrixXd> &poses,
-                                     double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1) {
+bool BsplineSE3::find_bounding_poses(double timestamp, const std::map<double,Eigen::MatrixXd> &poses,
+                                     double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1) const {
 
     // Set the default values
     t0 = -1;
@@ -315,9 +315,9 @@ bool BsplineSE3::find_bounding_poses(double timestamp, std::map<double,Eigen::Ma
 
 
 
-bool BsplineSE3::find_bounding_control_points(double timestamp, std::map<double,Eigen::MatrixXd> &poses,
+bool BsplineSE3::find_bounding_control_points(double timestamp, const std::map<double,Eigen::MatrixXd> &poses,
                                               double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1,
-                                              double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3) {
+                                              double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3) const {
 
     // Set the default values
     t0 = -1;

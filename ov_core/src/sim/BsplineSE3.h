@@ -127,7 +127,7 @@ namespace ov_core {
          * @param p_IinG Position of the pose in the global
          * @return False if we can't find it
          */
-        bool get_pose(double timestamp, Eigen::Matrix3d &R_GtoI, Eigen::Vector3d &p_IinG);
+        bool get_pose(double timestamp, Eigen::Matrix3d &R_GtoI, Eigen::Vector3d &p_IinG) const;
 
 
         /**
@@ -159,7 +159,7 @@ namespace ov_core {
 
 
         /// Returns the simulation start time that we should start simulating from
-        double get_start_time() {
+        double get_start_time() const {
             return timestamp_start;
         }
 
@@ -190,8 +190,8 @@ namespace ov_core {
          * @param pose1 SE(3) pose of the second pose
          * @return False if we are unable to find bounding poses
          */
-        bool find_bounding_poses(double timestamp, std::map<double,Eigen::MatrixXd> &poses,
-                                 double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1);
+        bool find_bounding_poses(double timestamp, const std::map<double,Eigen::MatrixXd> &poses,
+                                 double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1) const;
 
 
         /**
@@ -209,9 +209,9 @@ namespace ov_core {
          * @param pose3 SE(3) pose of the fourth pose
          * @return False if we are unable to find bounding poses
          */
-        bool find_bounding_control_points(double timestamp, std::map<double,Eigen::MatrixXd> &poses,
+        bool find_bounding_control_points(double timestamp, const std::map<double,Eigen::MatrixXd> &poses,
                                           double &t0, Eigen::Matrix4d &pose0, double &t1, Eigen::Matrix4d &pose1,
-                                          double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3);
+                                          double &t2, Eigen::Matrix4d &pose2, double &t3, Eigen::Matrix4d &pose3) const;
 
     };
 

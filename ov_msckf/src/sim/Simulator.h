@@ -141,8 +141,9 @@ namespace ov_msckf {
          * @param feats Our set of 3d features
          * @return True distorted raw image measurements and their ids for the specified camera
          */
-        std::vector<std::pair<size_t,Eigen::VectorXf>> project_pointcloud(const Eigen::Matrix3d &R_GtoI, const Eigen::Vector3d &p_IinG, int camid, const std::unordered_map<size_t,Eigen::Vector3d> &feats);
+        std::vector<std::pair<size_t,Eigen::VectorXf>> project_pointcloud(const Eigen::Matrix3d &R_GtoI, const Eigen::Vector3d &p_IinG, int camid, const std::unordered_map<size_t,Eigen::Vector3d> &feats) const;
 
+        void generate_feature_map(std::unordered_map<size_t,Eigen::Vector3d>* map_points, size_t* point_id, bool random_points) const;
 
         /**
          * @brief Will generate points in the fov of the specified camera
@@ -152,7 +153,7 @@ namespace ov_msckf {
          * @param[out] feats Map we will append new features to
          * @param numpts Number of points we should generate
          */
-        void generate_points(const Eigen::Matrix3d &R_GtoI, const Eigen::Vector3d &p_IinG, int camid, std::unordered_map<size_t,Eigen::Vector3d> &feats, int numpts);
+        void generate_points(const Eigen::Matrix3d &R_GtoI, const Eigen::Vector3d &p_IinG, int camid, std::unordered_map<size_t,Eigen::Vector3d>* map_points, size_t* point_id, int numpts) const;
 
         //===================================================================
         // Configuration variables
@@ -182,7 +183,7 @@ namespace ov_msckf {
         std::vector<std::mt19937> gen_meas_cams;
 
         /// Mersenne twister PRNG for state initialization
-        std::mt19937 gen_state_init;
+        mutable std::mt19937 gen_state_init;
 
         /// Mersenne twister PRNG for state perturbations
         std::mt19937 gen_state_perturb;

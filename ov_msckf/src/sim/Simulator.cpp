@@ -174,11 +174,19 @@ Simulator::Simulator(VioManagerOptions& params_) {
     //===============================================================
     //===============================================================
 
+    generate_feature_map(&featmap, &id_map, true);
+    // Nice sleep so the user can look at the printout
+    sleep(3);
+}
 
+void Simulator::generate_feature_map(std::unordered_map<size_t,Eigen::Vector3d>* map_points, size_t* point_id, bool random_points) const {
+    if (!random_points) {
+        return;
+    }
     // We will create synthetic camera frames and ensure that each has enough features
     //double dt = 0.25/freq_cam;
     double dt = 0.25;
-    size_t mapsize = featmap.size();
+    size_t mapsize = map_points->size();
     printf("[SIM]: Generating map features at %d rate\n",(int)(1.0/dt));
 
     // Loop through each camera
@@ -202,10 +210,10 @@ Simulator::Simulator(VioManagerOptions& params_) {
                 break;
 
             // Get the uv features for this frame
-            std::vector<std::pair<size_t,Eigen::VectorXf>> uvs = project_pointcloud(R_GtoI, p_IinG, i, featmap);
+            std::vector<std::pair<size_t,Eigen::VectorXf>> uvs = project_pointcloud(R_GtoI, p_IinG, i, *map_points);
             // If we do not have enough, generate more
             if((int)uvs.size() < params.num_pts) {
-                generate_points(R_GtoI, p_IinG, i, featmap, params.num_pts-(int)uvs.size());
+                generate_points(R_GtoI, p_IinG, i, map_points, point_id, params.num_pts-(int)uvs.size());
             }
 
             // Move forward in time
@@ -213,14 +221,10 @@ Simulator::Simulator(VioManagerOptions& params_) {
         }
 
         // Debug print
-        printf("[SIM]: Generated %d map features in total over %d frames (camera %d)\n",(int)(featmap.size()-mapsize),(int)((time_synth-spline.get_start_time())/dt),i);
-        mapsize = featmap.size();
+        printf("[SIM]: Generated %d map features in total over %d frames (camera %d)\n",(int)(map_points->size()-mapsize),(int)((time_synth-spline.get_start_time())/dt),i);
+        mapsize = map_points->size();
 
     }
-
-    // Nice sleep so the user can look at the printout
-    sleep(3);
-
 }
 
 
@@ -469,7 +473,7 @@ void Simulator::load_data(std::string path_traj) {
 
 
 std::vector<std::pair<size_t,Eigen::VectorXf>> Simulator::project_pointcloud(const Eigen::Matrix3d &R_GtoI, const Eigen::Vector3d &p_IinG,
-                                                                             int camid, const std::unordered_map<size_t,Eigen::Vector3d> &feats) {
+                                                                             int camid, const std::unordered_map<size_t,Eigen::Vector3d> &feats) const {
 
     // Assert we have good camera
     assert(camid < params.state_options.num_cameras);
@@ -554,7 +558,7 @@ std::vector<std::pair<size_t,Eigen::VectorXf>> Simulator::project_pointcloud(con
 
 
 void Simulator::generate_points(const Eigen::Matrix3d &R_GtoI, const Eigen::Vector3d &p_IinG,
-                                int camid, std::unordered_map<size_t,Eigen::Vector3d> &feats, int numpts) {
+                                int camid, std::unordered_map<size_t,Eigen::Vector3d>* map_points, size_t* point_id, int numpts) const {
 
     // Assert we have good camera
     assert(camid < params.state_options.num_cameras);
@@ -629,8 +633,8 @@ void Simulator::generate_points(const Eigen::Matrix3d &R_GtoI, const Eigen::Vect
         Eigen::Vector3d p_FinG = R_GtoI.transpose()*p_FinI+p_IinG;
 
         // Append this as a new feature
-        featmap.insert({id_map,p_FinG});
-        id_map++;
+        map_points->insert({*point_id,p_FinG});
+        (*point_id)++;
 
     }
 
