@@ -52,7 +52,7 @@ filename_est="$save_path_est/cam${cameras[i]}/${datasets[h]}/estimate_$j.txt"
 filename_gt="$save_path_gt/${datasets[h]}.txt"
 
 # run our ROS launch file (note we send console output to terminator)
-roslaunch ov_msckf pgeneva_sim.launch seed:="$j" max_cameras:="${cameras[i]}" dataset:="${datasets[h]}.txt" num_clones:="11" num_slam:="50" num_pts:="100" dosave:="true" path_est:="$filename_est" path_gt:="$filename_gt" &> /dev/null
+roslaunch ov_msckf pgeneva_sim.launch seed:="$j" max_cameras:="${cameras[i]}" dataset:="${datasets[h]}.txt" num_clones:="11" num_slam:="50" num_pts:="100" dosave_pose:="true" path_est:="$filename_est" path_gt:="$filename_gt" &> /dev/null
 
 # print out the time elapsed
 end_time="$(date -u +%s)"
