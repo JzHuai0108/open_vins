@@ -424,6 +424,9 @@ void VioManager::do_feature_propagate_update(const ov_core::CameraData &message)
     // Now, lets get all features that should be used for an update that are lost in the newest frame
     // We explicitly request features that have not been deleted (used) in another update step
     std::vector<std::shared_ptr<Feature>> feats_lost, feats_marg, feats_slam;
+    // feats_lost feature tracks that are not observed in the newest frame.
+    // feats_marg feature tracks containing an observation in the oldest cloned state.
+    // feats_slam ARUCO feature tracks containing an observation in the oldest cloned state. 
     feats_lost = trackFEATS->get_feature_database()->features_not_containing_newer(state->_timestamp, false, true);
 
     // Don't need to get the oldest features until we reach our max number of clones
