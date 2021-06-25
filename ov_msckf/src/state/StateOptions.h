@@ -53,6 +53,12 @@ struct StateOptions {
   /// Bool to determine whether or not to calibrate camera to IMU time offset
   bool do_calib_camera_timeoffset = false;
 
+  double std_cam_timeoffset = 0.01;
+  double std_cam_rotation = 0.001;
+  double std_cam_translation = 0.01;
+  double std_projection_intrinsics = 1.0;
+  double std_distortion_intrinsics = 0.005;
+
   /// Max clone size of sliding window
   int max_clone_size = 11;
 
@@ -91,6 +97,11 @@ struct StateOptions {
     printf("\t- calib_cam_extrinsics: %d\n", do_calib_camera_pose);
     printf("\t- calib_cam_intrinsics: %d\n", do_calib_camera_intrinsics);
     printf("\t- calib_cam_timeoffset: %d\n", do_calib_camera_timeoffset);
+    printf("\t- std_cam_timeoffset: %.4f\n", std_cam_timeoffset);
+    printf("\t- std_cam_rotation: %.4f\n", std_cam_rotation);
+    printf("\t- std_cam_translation: %.4f\n", std_cam_translation);
+    printf("\t- std_projection_intrinsics: %.4f\n", std_projection_intrinsics);
+    printf("\t- std_distortion_intrinsics: %.4f\n", std_distortion_intrinsics);
     printf("\t- max_clones: %d\n", max_clone_size);
     printf("\t- max_slam: %d\n", max_slam_features);
     printf("\t- max_slam_in_update: %d\n", max_slam_in_update);

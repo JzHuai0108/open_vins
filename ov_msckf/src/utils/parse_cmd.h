@@ -54,6 +54,13 @@ VioManagerOptions parse_command_line_arguments(int argc, char **argv) {
   app1.add_option("--calib_cam_extrinsics", params.state_options.do_calib_camera_pose, "");
   app1.add_option("--calib_cam_intrinsics", params.state_options.do_calib_camera_intrinsics, "");
   app1.add_option("--calib_cam_timeoffset", params.state_options.do_calib_camera_timeoffset, "");
+
+  app1.add_option("--std_cam_timeoffset", params.state_options.std_cam_timeoffset, "");
+  app1.add_option("--std_cam_rotation", params.state_options.std_cam_rotation, "");
+  app1.add_option("--std_cam_translation", params.state_options.std_cam_translation, "");
+  app1.add_option("--std_projection_intrinsics", params.state_options.std_projection_intrinsics, "");
+  app1.add_option("--std_distortion_intrinsics", params.state_options.std_distortion_intrinsics, "");
+
   app1.add_option("--max_clones", params.state_options.max_clone_size, "");
   app1.add_option("--max_slam", params.state_options.max_slam_features, "");
   app1.add_option("--max_slam_in_update", params.state_options.max_slam_in_update, "");

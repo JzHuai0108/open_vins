@@ -50,6 +50,13 @@ VioManagerOptions parse_ros_nodehandler(ros::NodeHandle &nh) {
   nh.param<bool>("calib_cam_extrinsics", params.state_options.do_calib_camera_pose, params.state_options.do_calib_camera_pose);
   nh.param<bool>("calib_cam_intrinsics", params.state_options.do_calib_camera_intrinsics, params.state_options.do_calib_camera_intrinsics);
   nh.param<bool>("calib_cam_timeoffset", params.state_options.do_calib_camera_timeoffset, params.state_options.do_calib_camera_timeoffset);
+
+  nh.param<double>("std_cam_timeoffset", params.state_options.std_cam_timeoffset, params.state_options.std_cam_timeoffset);
+  nh.param<double>("std_cam_rotation", params.state_options.std_cam_rotation, params.state_options.std_cam_rotation);
+  nh.param<double>("std_cam_translation", params.state_options.std_cam_translation, params.state_options.std_cam_translation);
+  nh.param<double>("std_projection_intrinsics", params.state_options.std_projection_intrinsics, params.state_options.std_projection_intrinsics);
+  nh.param<double>("std_distortion_intrinsics", params.state_options.std_distortion_intrinsics, params.state_options.std_distortion_intrinsics);
+
   nh.param<int>("max_clones", params.state_options.max_clone_size, params.state_options.max_clone_size);
   nh.param<int>("max_slam", params.state_options.max_slam_features, params.state_options.max_slam_features);
   nh.param<int>("max_slam_in_update", params.state_options.max_slam_in_update, params.state_options.max_slam_in_update);

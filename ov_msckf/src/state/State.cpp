@@ -81,20 +81,22 @@ State::State(StateOptions &options) {
 
   // Finally, set some of our priors for our calibration parameters
   if (_options.do_calib_camera_timeoffset) {
-    _Cov(_calib_dt_CAMtoIMU->id(), _calib_dt_CAMtoIMU->id()) = std::pow(0.01, 2);
+    _Cov(_calib_dt_CAMtoIMU->id(), _calib_dt_CAMtoIMU->id()) = std::pow(_options.std_cam_timeoffset, 2);
   }
   if (_options.do_calib_camera_pose) {
     for (int i = 0; i < _options.num_cameras; i++) {
-      _Cov.block(_calib_IMUtoCAM.at(i)->id(), _calib_IMUtoCAM.at(i)->id(), 3, 3) = std::pow(0.001, 2) * Eigen::MatrixXd::Identity(3, 3);
+      _Cov.block(_calib_IMUtoCAM.at(i)->id(), _calib_IMUtoCAM.at(i)->id(), 3, 3) = 
+          std::pow(_options.std_cam_rotation, 2) * Eigen::MatrixXd::Identity(3, 3);
       _Cov.block(_calib_IMUtoCAM.at(i)->id() + 3, _calib_IMUtoCAM.at(i)->id() + 3, 3, 3) =
-          std::pow(0.01, 2) * Eigen::MatrixXd::Identity(3, 3);
+          std::pow(_options.std_cam_translation, 2) * Eigen::MatrixXd::Identity(3, 3);
     }
   }
   if (_options.do_calib_camera_intrinsics) {
     for (int i = 0; i < _options.num_cameras; i++) {
-      _Cov.block(_cam_intrinsics.at(i)->id(), _cam_intrinsics.at(i)->id(), 4, 4) = std::pow(1.0, 2) * Eigen::MatrixXd::Identity(4, 4);
+      _Cov.block(_cam_intrinsics.at(i)->id(), _cam_intrinsics.at(i)->id(), 4, 4) = 
+          std::pow(_options.std_projection_intrinsics, 2) * Eigen::MatrixXd::Identity(4, 4);
       _Cov.block(_cam_intrinsics.at(i)->id() + 4, _cam_intrinsics.at(i)->id() + 4, 4, 4) =
-          std::pow(0.005, 2) * Eigen::MatrixXd::Identity(4, 4);
+          std::pow(_options.std_distortion_intrinsics, 2) * Eigen::MatrixXd::Identity(4, 4);
     }
   }
 }
