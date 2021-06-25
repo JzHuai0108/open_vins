@@ -7,6 +7,10 @@
     <arg name="bag"         default="/home/patrick/datasets/tum/dataset-room1_512_16.bag" />
     <arg name="bag_gt"      default="$(find ov_data)/tum_vi/dataset-room1_512_16.csv" /> <!-- $(find ov_data)/tum_vi/dataset-room1_512_16.csv -->
 
+    <!-- saving trajectory path -->
+    <arg name="dosave"      default="false" />
+    <arg name="path_est"    default="/tmp/traj_estimate.txt" />
+
     <!-- imu starting thresholds -->
     <arg name="init_window_time"  default="1.0" />
     <arg name="init_imu_thresh"   default="0.60" /> <!-- room1-5:0.60, room6:0.45 -->
@@ -23,7 +27,7 @@
 
         <!-- bag parameters -->
         <param name="path_bag"    type="string" value="$(arg bag)" />
-        <param name="path_gt"     type="string" value="$(arg bag_gt)" />
+        <!-- <param name="path_gt"     type="string" value="$(arg bag_gt)" /> -->
         <param name="bag_start"   type="int"    value="$(arg bag_start)" />
         <param name="bag_durr"    type="int"    value="-1" />
 
@@ -112,5 +116,15 @@
 
     </node>
 
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ov_msckf)/launch/display.rviz" />
+
+    <!-- record the trajectory if enabled -->
+    <group if="$(arg dosave)">
+        <node name="recorder_estimate" pkg="ov_eval" type="pose_to_file" output="screen" required="true">
+            <param name="topic"      type="str" value="/ov_msckf/poseimu" />
+            <param name="topic_type" type="str" value="PoseWithCovarianceStamped" />
+            <param name="output"     type="str" value="$(arg path_est)" />
+        </node>
+    </group>
 
 </launch>
