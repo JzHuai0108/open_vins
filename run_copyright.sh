@@ -1,4 +1,14 @@
-/*
+
+
+# 1. first find all source files
+# 2. remove copywrite
+find . -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' \
+  -not -path "*/cpi/*" -not -path "*/cmake-build-debug/*" \
+  -not -name "*CLI11.hpp" -not -name "*matplotlibcpp.h" \
+  -exec sed -i '1,/\*\//{ /\/\*/,/\*\//d }' {} \;
+
+# 3. Create copytext file
+COPYHEADER="/*
  * OpenVINS: An Open Platform for Visual-Inertial Research
  * Copyright (C) 2021 Patrick Geneva
  * Copyright (C) 2021 Guoquan Huang
@@ -19,33 +29,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+"
+echo "$COPYHEADER" > /tmp/out_copy
 
-#ifndef OV_MSCKF_UPDATER_OPTIONS_H
-#define OV_MSCKF_UPDATER_OPTIONS_H
 
-namespace ov_msckf {
+# 4. now append the new header to the files!
+find . -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' \
+  -not -path "*/cpi/*" -not -path "*/cmake-build-debug/*" \
+  -not -name "*CLI11.hpp" -not -name "*matplotlibcpp.h" \
+  -print0 |
+  while IFS= read -r -d '' file; do
+    echo $file;
+    cat /tmp/out_copy $file > /tmp/out && mv /tmp/out $file
+  done
 
-/**
- * @brief Struct which stores general updater options
- */
-struct UpdaterOptions {
 
-  /// What chi-squared multipler we should apply
-  double chi2_multipler = 5;
 
-  /// Noise sigma for our raw pixel measurements
-  double sigma_pix = 1;
-
-  /// Covariance for our raw pixel measurements
-  double sigma_pix_sq = 1;
-
-  /// Nice print function of what parameters we have loaded
-  void print() {
-    printf("\t- chi2_multipler: %.1f\n", chi2_multipler);
-    printf("\t- sigma_pix: %.2f\n", sigma_pix);
-  }
-};
-
-} // namespace ov_msckf
-
-#endif // OV_MSCKF_UPDATER_OPTIONS_H
