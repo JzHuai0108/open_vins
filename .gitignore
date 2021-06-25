@@ -6,3 +6,5 @@ Build
 doxgen_generated
 *.swp
 *.swo
+
+.vs/
