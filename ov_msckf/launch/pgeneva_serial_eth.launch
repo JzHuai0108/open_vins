@@ -11,6 +11,7 @@
     <!-- saving trajectory path -->
     <arg name="dosave"      default="false" />
     <arg name="path_est"    default="/tmp/traj_estimate.txt" />
+    <arg name="show_rviz"   default="false" />
 
     <arg name="calib_cam_extrinsics"   default="true" />
     <arg name="calib_cam_intrinsics"   default="true" />
@@ -134,7 +135,9 @@
 
     </node>
 
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ov_msckf)/launch/display.rviz" />
+    <group if="$(arg show_rviz)">
+        <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ov_msckf)/launch/display.rviz" />
+    </group>
 
     <!-- record the trajectory if enabled -->
     <group if="$(arg dosave)">
