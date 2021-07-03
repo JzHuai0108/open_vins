@@ -11,6 +11,9 @@
     <arg name="dosave"      default="false" />
     <arg name="path_est"    default="/tmp/traj_estimate.txt" />
     <arg name="show_rviz"   default="false" />
+    <arg name="dosave_state"    default="false" />
+    <arg name="path_state_est"  default="$(find ov_eval)/data/sim/state_estimate.txt" />
+    <arg name="path_state_std"  default="$(find ov_eval)/data/sim/state_deviation.txt" />
 
     <!-- imu starting thresholds -->
     <arg name="init_window_time"  default="1.0" />
@@ -41,6 +44,10 @@
         <!-- <param name="path_gt"     type="string" value="$(arg bag_gt)" /> -->
         <param name="bag_start"   type="int"    value="$(arg bag_start)" />
         <param name="bag_durr"    type="int"    value="-1" />
+
+        <param name="save_total_state"  type="bool"   value="$(arg dosave_state)" />
+        <param name="filepath_est"      type="string" value="$(arg path_state_est)" />
+        <param name="filepath_std"      type="string" value="$(arg path_state_std)" />
 
         <!-- world/filter parameters -->
         <param name="use_fej"                type="bool"   value="true" />
